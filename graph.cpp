@@ -62,8 +62,33 @@ mcGraph* mcgraphAleatoire(int nbV, int nbE, int nbC) //nbV nombre de sommets, nb
     return graph;
 }
 
+//--------------------------//
+//       Algos-outils       //           
+//--------------------------//
 
+// Fermeture transitive
 
+void Warshall(mcGraph* G, // la matrice d'adjacence non binaire de G
+              binMat* wG) // la matrice d'adjacence binaire de G*
+{
+    for (int i = 0; i < G->nbV; i++)
+    {
+        for (int j = 0; j < G->nbV; j++)
+        {
+            wG->M[i][j] = !(G->M[i][j].empty());
+        }
+    }
+    for (int k = 0; k < G->nbV; k++)
+    {
+        for (int i = 0; i < G->nbV; i++)
+        {
+            for (int j = 0; j < G->nbV; j++)
+            {
+                wG->M[i][j] = (wG->M[i][j] || (wG->M[i][k] && wG->M[k][j]));
+            }
+        }
+    }  
+}
 
 
 //-------------------------//
@@ -98,6 +123,27 @@ sGraph* construction1mc(mcGraph* g, int c)
     return result;
 }
 
+
+
+//-------------------------//
+// K-colored paths problem //
+//-------------------------//
+
+// 1ere approche naïve du problème en cherchant tout les chemins entre S0 et T0, et en regardant le nb de couleur pour chaque chemin
+
+// Algo de rechreche du plus court chemin entre S0 et T0
+
+// En construction...
+
+
+
+
+
+
+//------------------------//
+//          Main          //
+//------------------------//
+
 int main(){
     //Choix du type de graphe 
     int choice = 0,n=0;
@@ -107,10 +153,11 @@ int main(){
     }
     cout << "Indiquez le nombre de sommets du graphe : "<<endl;
     cin>>n;
+    sGraph* g1;
+    mcGraph* g2;
     switch(choice)
     {
         case 1: 
-            sGraph* g1;
             g1=graphDense(n);
             g1->afficheMatrice();
             g1->destructor();
@@ -119,15 +166,13 @@ int main(){
         case 2: 
             //J'utilise la 2eme structure de graphe pour cette partie, elle m'a servi de test, et tout marche, 
             //j'ai aussi adapté la construction 1, mais j'ai pas fait d'affichage pour les mcGraphs
-            mcGraph* g2;
             int nbC,nbE;
             sGraph* g_tmp;
-            cout << "Indiquez le nombre d'arêtes du graph aléatoire : "<<endl;
+            cout << "Indiquez le nombre d'aretes du graph aleatoire : "<<endl;
             cin>>nbE;
-            cout << "Indiquez le nombre de couleurs du graph aléatoire : "<<endl;
+            cout << "Indiquez le nombre de couleurs du graph aleatoire : "<<endl;
             cin>>nbC;
             g2=mcgraphAleatoire(n,nbE,nbC);
-            //g1->afficheMatrice();
             for (int i = 0; i < nbC; i++)
             {
                 cout <<endl << "La matrice construite par la couleur " << i <<endl;
@@ -135,7 +180,22 @@ int main(){
                 g_tmp->afficheMatrice();
             }
             g_tmp->destructor();
-            g2->destructor();
             break;
     }
+    cout << "Matrice d'adjacence de G : "<<endl;
+    binMat* bM = new binMat(g2->nbV);
+    for (int i = 0; i < g2->nbV; i++)
+    {
+        for (int j = 0; j < g2->nbV; j++)
+        {
+            bM->M[i][j] = !(g2->M[i][j].empty());
+        }
+    }
+    bM->afficheMatrice();
+    cout << "Matrice d'adjacence de G* : "<<endl;
+    Warshall(g2,bM);
+    bM->afficheMatrice();
+    bM->destructor();
+    g2->destructor();
+    return 0;
 }

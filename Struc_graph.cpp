@@ -51,6 +51,7 @@ void sGraph::afficheMatrice()
         }
         cout<<endl;
     }
+    cout<<endl;
 }
 
 void sGraph::destructor()
@@ -63,6 +64,50 @@ void sGraph::destructor()
 }
 
 
+//Binary Matrix
+
+struct binMat
+{
+    int n;
+    bool **M;
+
+    binMat(int n);
+
+    void afficheMatrice();
+    void destructor();
+};
+
+binMat::binMat(int n)
+{
+    this->n = n;
+    this->M = new bool*[this->n];
+    for (int i = 0; i < this->n; i++)
+    {
+        this->M[i] = new bool[this->n];
+    }
+}
+
+void binMat::afficheMatrice()
+{
+    for (int i = 0; i < this->n; i++)
+    {
+        for (int j = 0; j < this->n; j++)
+        {
+            cout<<M[i][j];
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+void binMat::destructor()
+{
+    for (int i = 0; i < this->n; i++)
+    {       
+        delete[] this->M[i];
+    }
+    delete[] this->M;
+}
 
 //Multi colored graphs
 
@@ -86,15 +131,6 @@ mcGraph::mcGraph(int n)
     {
         this->M[i] = new set<int>[n];
     }
-    /*
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            this->M[i][j] = NULL;
-        }
-    }
-    */
 }
 
 void mcGraph::addEdge(int v1, int v2, int c)
