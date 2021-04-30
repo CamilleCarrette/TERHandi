@@ -84,6 +84,10 @@ binMat::binMat(int n)
     for (int i = 0; i < this->n; i++)
     {
         this->M[i] = new bool[this->n];
+        for (int j = 0; j < this->n; j++)
+        {
+            this->M[i][j]=false;
+        }
     }
 }
 
@@ -117,15 +121,16 @@ struct mcGraph
     int nbC;
     set<int> **M;
 
-    mcGraph(int n);
+    mcGraph(int n, int c);
 
     void addEdge(int v1, int v2, int c);
     void destructor(); 
 };
 
-mcGraph::mcGraph(int n)
+mcGraph::mcGraph(int n, int c)
 {
     this->nbV = n;
+    this->nbC = c;
     this->M = new set<int>*[n];
     for (int i = 0; i < n; i++)
     {
