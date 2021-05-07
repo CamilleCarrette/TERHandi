@@ -1,5 +1,5 @@
 ##################
-#ça c'est du make
+#Makefile TERhandi
 ##################
 
 graphtest: graph.cpp
