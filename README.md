@@ -6,7 +6,7 @@ This will create a file with the results of the tests
 
 ```
 $ git clone https://github.com/CamilleCarrette/TERHandi
-$ 
+$ make //
 
 ```
 
