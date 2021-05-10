@@ -13,7 +13,7 @@ $
 ## Contact
 
 You can contact us at the following mail :
-camille.carrette@outlook.com
-louis.remy09@yahoo.com
-angele.siffert@etu.umontpellier.fr
-rayan.mediouni@etu.umontpellier.fr
+* camille.carrette@outlook.com
+* louis.remy09@yahoo.com
+* angele.siffert@etu.umontpellier.fr
+* rayan.mediouni@etu.umontpellier.fr
