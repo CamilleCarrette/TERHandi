@@ -6,7 +6,7 @@
 using namespace std;
 
 //------------------------------------------//
-// Création de graphes simples particuliers //
+// Création de graphes simples particuliers // (obsolete)
 //------------------------------------------//
 
 sGraph* graphDense(int n)//n nombre de sommets
@@ -57,7 +57,7 @@ mcGraph* mcgraphAleatoire(int nbV, int nbE, int nbC) //nbV nombre de sommets, nb
         y = rand()%nbV;
         } while (x==y);
         c = (rand()%nbC)+1;
-        cout <<"x,y: {"<< x<<","<< y<<"}, c: "<<c<<endl;
+        // cout <<"x,y: {"<< x<<","<< y<<"}, c: "<<c<<endl;
         graph->addEdge(x,y,c);  
     }
     return graph;
@@ -96,7 +96,7 @@ bool chemin(binMat* g, int s0, int t0)
     if (s0==t0) 
         return true;
 
-    bool* visite = new bool[g->n];
+    bool visite[g->n];
     for (int i = 0; i < g->n; i++)
         visite[i] = false;
 
@@ -116,13 +116,12 @@ bool chemin(binMat* g, int s0, int t0)
 
                 if (!visite[i])
                 {
-                    visite[i] == true;
+                    visite[i] = true;
                     liste.push_back(i);
                 }
-            }   
+            }
         }
     }
-    delete visite;
     return false;
 }
 
@@ -181,7 +180,7 @@ void combinaison(comb* Cb, list<int> L, list<int> F, int k)
 //-------------------------//
 
 
-sGraph* construction1(sGraph* g, int c) // !!! OBSELETE !!!
+sGraph* construction1(sGraph* g, int c) // !!! obsolete !!!
 {
     sGraph* result = new sGraph(g->nbV);
     for (int i = 0; i < g->nbV; i++)
@@ -236,10 +235,8 @@ bool KColored(mcGraph* G, int s0, int t0, int k)
     int c;
     combinaison(Cb,L,Cb->F,k);
     binMat* mat = new binMat(G->nbV);
-    cout<<"count : "<<Cb->count<<endl;
     while (i < Cb->count && !res)
     {
-        cout<<"ok?"<<endl;
         for (int j = 0; j < G->nbV; j++)
         {
             for (int k = 0; k < G->nbV; k++)
@@ -250,108 +247,15 @@ bool KColored(mcGraph* G, int s0, int t0, int k)
         for (int j = 0; j < k; j++)
         {
             c = Cb->tab[i].front();
-            cout<<"cb tab : "<<Cb->tab[i].front()<<endl;
+            //cout<<"cb tab : "<<Cb->tab[i].front()<<endl;
             Cb->tab[i].pop_front();
             mat = construction1KC(G,mat,c);
         }
         res = chemin(mat,s0,t0);
-        cout<<"res : "<<res<<endl;
+        //cout<<"res : "<<res<<endl;
         i++;
     }
     mat->destructor();
-    //delete Cb->tab;
+    delete Cb->tab;
     return res;
-}
-
-
-
-
-
-
-//------------------------//
-//          Main          //
-//------------------------//
-
-int main(){
-    //Choix du type de graphe 
-    int choice = 0,n=0;
-    while((choice != 1) && (choice != 2)){
-        cout<<endl<<"Indiquez le type de graphe de votre choix :"<<endl
-            <<"1- graphe dense"<<endl
-            <<"2- graphe aleatoire" << endl;
-        cin>>choice;
-    }
-    cout << "Indiquez le nombre de sommets du graphe : ";
-    cin>>n;
-    sGraph* g1;
-    mcGraph* g2;
-    switch(choice)
-    {
-        case 1: 
-            g1=graphDense(n);
-            g1->afficheMatrice();
-            g1->destructor();
-            break;
-
-        case 2: 
-            //J'utilise la 2eme structure de graphe pour cette partie, elle m'a servi de test, et tout marche, 
-            //j'ai aussi adapté la construction 1, mais j'ai pas fait d'affichage pour les mcGraphs
-            int nbC,nbE;
-            binMat* g_tmp;
-            cout << "Indiquez le nombre d'aretes du graph aleatoire : ";
-            cin>>nbE;
-            cout << "Indiquez le nombre de couleurs du graph aleatoire : ";
-            cin>>nbC;
-            g2=mcgraphAleatoire(n,nbE,nbC);
-            for (int i = 1; i <= nbC; i++)
-            {
-                cout <<endl << "La matrice construite par la couleur " << i <<endl;
-                g_tmp = construction1mc(g2, i);
-               // g_tmp->afficheMatrice();
-            }
-            g_tmp->destructor();
-
-
-            int k,s0,t0,sortie;
-
-            cout << "Matrice d'adjacence de G :"<<endl;
-            binMat* bM = new binMat(g2->nbV);
-            for (int i = 0; i < g2->nbV; i++)
-            {
-                for (int j = 0; j < g2->nbV; j++)
-                {
-                    bM->M[i][j] = !(g2->M[i][j].empty());
-                }
-            }
-        //    bM->afficheMatrice();
-            cout << "Matrice d'adjacence de G* : "<<endl;
-            warshall(g2,bM);
-        //    bM->afficheMatrice();
-            bM->destructor();
-
-
-            while(1)
-            {
-                cout<<"KColored : "<<endl;          
-                cout<<"voulez vous sortir ? 0 == oui : ";
-                cin>>sortie;
-                if (sortie==0)
-                    break;
-                cout<<endl<<"exite-t-il un chemin entre s0 et t0 en k couleurs ?"<<endl
-                    <<"entrez k : ";
-                cin>>k;
-                cout<<"entrez s0 : ";
-                cin>>s0;
-                cout<<"entrez t0 : ";
-                cin>>t0;
-                cout<<"nbc : "<<g2->nbC<<"nbv : "<<g2->nbV<<endl;
-                if (k > g2->nbC || s0 >= g2->nbV || t0 >= g2->nbV)
-                    cout<<"erreur dans les entrees"<<endl;
-                else    
-                    cout<<"Reponse : "<<KColored(g2,s0,t0,k)<<endl<<endl;
-            }
-            g2->destructor();
-            break;
-    }
-    return 0;
 }
