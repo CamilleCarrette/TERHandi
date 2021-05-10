@@ -2,11 +2,9 @@
 #Makefile TERhandi
 ##################
 
-graph: main.cpp 
-	g++ -Wpedantic $^ -o graph
-
-graphtest: data_to-excel.cpp 
-	g++ -Wpedantic $^ -o graphtest
+graph: graph.cpp
+	g++ main.cpp -o graph
+	g++ data_to_excel.cpp -o graphtest
 
 clean : 
 	rm -f main graph temps_graph.txt graphtest 
