@@ -6,7 +6,7 @@
 int main()
 {
     // Création de tableaux pour faciliter la boucle des tests sur les instances
-    int vertices[4] = {500,1000,5000,10000}; 
+    int vertices[4] = {100,500,1000,5000}; 
     int edges[4] = {1,2,5,10}; //multiplicateur du nb de sommets
     int colors[4] = {5,10,15,20};
 
