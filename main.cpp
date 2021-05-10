@@ -21,15 +21,15 @@ int main(){
     mcGraph* g2;
     switch(choice)
     {
-        case 1: 
+        case 1: //cas du graphe dense
+
             g1=graphDense(n);
             g1->afficheMatrice();
             g1->destructor();
             break;
 
-        case 2: 
-            //J'utilise la 2eme structure de graphe pour cette partie, elle m'a servi de test, et tout marche, 
-            //j'ai aussi adapté la construction 1, mais j'ai pas fait d'affichage pour les mcGraphs
+        case 2: //cas du graphe aléatoire
+
             int nbC,nbE;
             binMat* g_tmp;
             cout << "Indiquez le nombre d'aretes du graph aleatoire : ";
@@ -64,7 +64,7 @@ int main(){
             bM->destructor();
 
 
-            while(1)
+            while(1)//boucle tant que l'utilisateur souhaite faire des test sur le graphe qu'il a instancié plus haut
             {
                 cout<<"KColored : "<<endl;          
                 
@@ -81,7 +81,7 @@ int main(){
                 else    
                     cout<<"Reponse : "<<KColored(g2,s0,t0,k)<<endl<<endl;
 
-                cout<<"voulez vous tester d'autre chemin ? 1 : oui ; 2 : non";
+                cout<<"voulez vous tester d'autre chemin ? 1 : oui ; 0 : non"; //possibilité d'arreter les tests
                 cin>>sortie;
                 if (sortie==0)
                     break;
